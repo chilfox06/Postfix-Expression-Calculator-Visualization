@@ -1,1 +1,1 @@
-This is a test for new rule applied to main, people should be allowed to review their own pull request
+This is a test for new rule applied to main, people should be allowed to review their own pull requests.
