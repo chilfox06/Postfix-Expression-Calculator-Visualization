@@ -4,4 +4,4 @@
 btw, [fun video to watch](http://tinyurl.com/htlinsing)
 
 * ssh-key verification test  
-counting of tries: 4
+counting of tries: 5
