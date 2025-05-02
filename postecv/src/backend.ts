@@ -43,7 +43,7 @@ function Solve(expression: string): void {
             // 是運算符號
             UpdateAnswer([null, token, null]);
             const b = Pop();
-            UpdateAnswer([NaN, token, b]);
+            UpdateAnswer([null, token, b]);
             const a = Pop();
             UpdateAnswer([a, token, b]);
 
