@@ -1,11 +1,11 @@
 // === 假設的 UI 更新函數 ===
-// function UpdateView(stack: (number | string)[]): void {
-//     console.log("View updated:", stack);
-// }
+function UpdateView(stack: (number | string)[]): void {
+    console.log("View updated:", stack);
+}
 
-// function UpdateAnswer(answer: number | (number | string | null)[]): void {
-//     console.log("Answer updated:", answer);
-// }
+function UpdateAnswer(answer: number | (number | string | null)[]): void {
+    console.log("Answer updated:", answer);
+}
 
 // === Stack 結構與操作 ===
 const stack: (number | string)[] = [];
@@ -15,12 +15,12 @@ function Push(value: number | string): void {
     UpdateView(stack);
 }
 
-function Pop(): number | string {
-    const value = stack.pop();
-    UpdateView(stack);
-    if (value === undefined) {
+function Pop(): number | string{
+    if (stack.length === 0) {
         throw new Error("Stack is empty! Cannot Pop.");
     }
+    const value = stack.pop();
+    UpdateView(stack);
     return value;
 }
 
