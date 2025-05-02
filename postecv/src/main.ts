@@ -1,85 +1,87 @@
-// === 假設的 UI 更新函數 ===
-// function UpdateView(stack: (number | string)[]): void {
-//     console.log("View updated:", stack);
-// }
+const app = document.getElementById("app");
 
-// function UpdateAnswer(answer: number | (number | string | null)[]): void {
-//     console.log("Answer updated:", answer);
-// }
+if (app) {
+  Object.assign(document.body.style, {
+    margin: "0",
+    padding: "0",
+    height: "100vh",
+    display: "flex",
+    alignItems: "center",         // center vertically
+    justifyContent: "flex-start", // align left
+    paddingLeft: "15vw",          // move from the left
+    backgroundColor: "#f0f0f0",
+    fontFamily: "Arial, sans-serif",
+  });
+  
 
-// === Stack 結構與操作 ===
-const stack: (number | string)[] = [];
+  // Main container
+  const container = document.createElement("div");
+  container.style.display = "flex";
+  container.style.flexDirection = "column";
+  container.style.alignItems = "center";
+  container.style.background = "#ffffff";
+  container.style.padding = "40px";
+  container.style.borderRadius = "12px";
+  container.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.1)";
 
-function Push(value: number | string): void {
-    stack.push(value);
-    UpdateView(stack);
-}
+  // Input box
+  const inputBox = document.createElement("input");
+  inputBox.id = "inputBox";
+  inputBox.readOnly = true;
+  Object.assign(inputBox.style, {
+    width: "320px",
+    height: "50px",
+    fontSize: "24px",
+    padding: "10px",
+    border: "1px solid #ccc",
+    borderRadius: "8px",
+    marginBottom: "30px",
+    textAlign: "left",
+  });
+  container.appendChild(inputBox);
 
-function Pop(): number | string {
-    const value = stack.pop();
-    UpdateView(stack);
-    if (value === undefined) {
-        throw new Error("Stack is empty! Cannot Pop.");
-    }
-    return value;
-}
+  // Keyboard
+  const keyboard = document.createElement("div");
+  keyboard.style.display = "grid";
+  keyboard.style.gridTemplateColumns = "repeat(4, 70px)";
+  keyboard.style.gap = "15px";
 
-function Top(): number | string | undefined {
-    return stack[stack.length - 1];
-}
+  const keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "*", "/", "+", "-", "SPACE", "DEL"];
 
-// === 主函數：求值 postfix 表達式 ===
-function Solve(expression: string): void {
-    // 清空 stack
-    stack.length = 0;
+  keys.forEach(key => {
+    const btn = document.createElement("button");
+    btn.textContent = key === "SPACE" ? "␣" : key;
+    Object.assign(btn.style, {
+      padding: "15px",
+      fontSize: "18px",
+      borderRadius: "8px",
+      border: "1px solid #aaa",
+      backgroundColor: "#e0e0e0",
+      cursor: "pointer",
+      transition: "background-color 0.2s",
+    });
 
-    const tokens = expression.split(" ");
+    btn.onmouseover = () => (btn.style.backgroundColor = "#d0d0d0");
+    btn.onmouseout = () => (btn.style.backgroundColor = "#e0e0e0");
 
-    for (const token of tokens) {
-        if (!isNaN(Number(token))) {
-            // 是數字
-            Push(Number(token));
-        } else {
-            // 是運算符號
-            UpdateAnswer([null, token, null]);
-            const b = Pop();
-            UpdateAnswer([NaN, token, b]);
-            const a = Pop();
-            UpdateAnswer([a, token, b]);
-
-            if (typeof a !== "number" || typeof b !== "number") {
-                throw new Error("Invalid expression!");
-            }
-
-            let result: number;
-
-            switch (token) {
-                case "+":
-                    result = a + b;
-                    break;
-                case "-":
-                    result = a - b;
-                    break;
-                case "*":
-                    result = a * b;
-                    break;
-                case "/":
-                    result = a / b;
-                    break;
-                default:
-                    throw new Error(`Unsupported operator: ${token}`);
-            }
-
-            UpdateAnswer(result);
-            Push(result); // 可以改成最後一個不要 push
-            UpdateAnswer([null, null, null]);
+    btn.onclick = () => {
+      if (key === "DEL") {
+        inputBox.value = inputBox.value.slice(0, -1);
+      } else if (key === "SPACE") {
+        if (!inputBox.value.endsWith(" ")) {
+          inputBox.value += " ";
         }
-    }
+      } else {
+        inputBox.value += key;
+      }
+    };
 
-    const finalResult = Pop();
-    if (typeof finalResult === "number") {
-        UpdateAnswer(finalResult);
-    } else {
-        throw new Error("Evaluation did not result in a number");
-    }
+    keyboard.appendChild(btn);
+  });
+
+  container.appendChild(keyboard);
+  app.appendChild(container);
+} else {
+  console.error("App container not found.");
 }
+// inputBox.value

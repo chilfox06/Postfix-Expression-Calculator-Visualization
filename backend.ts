@@ -16,11 +16,11 @@ function Push(value: number | string): void {
 }
 
 function Pop(): number | string{
-    if (stack.length === 0) {
-        throw new Error("Stack is empty! Cannot Pop.");
-    }
     const value = stack.pop();
     UpdateView(stack);
+    if (value === undefined) {
+        throw new Error("Stack is empty! Cannot Pop.");
+    }
     return value;
 }
 
