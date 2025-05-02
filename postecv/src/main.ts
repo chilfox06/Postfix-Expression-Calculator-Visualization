@@ -46,7 +46,24 @@ if (app) {
   keyboard.style.gridTemplateColumns = "repeat(4, 70px)";
   keyboard.style.gap = "15px";
 
-  const keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "*", "/", "+", "-", "SPACE", "DEL"];
+  const keys = [
+    "1", "2", "3", "+", 
+    "4", "5", "6", "-", 
+    "7", "8", "9", "*",
+    "AC", "0", "SPACE", "/", 
+    "DEL", "ENT", "PST"];
+  
+  keyboard.style.gridTemplateColumns = "repeat(4, 70px)"; // still 4 for now
+
+  // Display area for finalized input
+  const resultDisplay = document.createElement("div");
+  resultDisplay.style.marginTop = "25px";
+  resultDisplay.style.fontSize = "20px";
+  resultDisplay.style.fontWeight = "bold";
+  resultDisplay.style.color = "#333";
+  container.appendChild(resultDisplay);
+  
+  let inputFinalized = false;
 
   keys.forEach(key => {
     const btn = document.createElement("button");
@@ -60,19 +77,38 @@ if (app) {
       cursor: "pointer",
       transition: "background-color 0.2s",
     });
-
+  
     btn.onmouseover = () => (btn.style.backgroundColor = "#d0d0d0");
-    btn.onmouseout = () => (btn.style.backgroundColor = "#e0e0e0");
+    btn.onmouseout = () => {
+      btn.style.backgroundColor = "#e0e0e0";
+    };
 
-    btn.onclick = () => {
+    btn.onclick = async () => {
+      
       if (key === "DEL") {
-        inputBox.value = inputBox.value.slice(0, -1);
+        if (!inputFinalized) inputBox.value = inputBox.value.slice(0, -1);
       } else if (key === "SPACE") {
-        if (!inputBox.value.endsWith(" ")) {
+        if (!inputFinalized && !inputBox.value.endsWith(" ")) {
           inputBox.value += " ";
         }
+      } else if (key === "ENT") {
+        inputFinalized = true;
+        resultDisplay.textContent = `${inputBox.value}`;
+      } else if (key === "AC") {
+        inputFinalized = false;
+        inputBox.value = "";
+        resultDisplay.textContent = null;
+      }  else if (key === "PST") {
+        try {
+          const text = await navigator.clipboard.readText();
+          if (!inputFinalized) inputBox.value += text;
+        } catch (err) {
+          alert("Clipboard access denied. Please allow clipboard permissions.");
+        }
       } else {
-        inputBox.value += key;
+        if (!inputFinalized) {
+          inputBox.value += key;
+        } 
       }
     };
 
