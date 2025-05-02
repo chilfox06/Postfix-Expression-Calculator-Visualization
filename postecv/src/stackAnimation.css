@@ -1,0 +1,29 @@
+body
+{
+    background-color: black;
+}
+
+
+.SAContainer
+{
+    width: 300px;
+    aspect-ratio: 4/6;
+    border: 5px white solid;
+    background-color: #AAAAAA80;
+    position: relative;
+}
+
+.SAStack
+{
+    width: 30%;
+    height: 60%;
+    border-radius: 10px;
+    border: 5px white solid;
+    border-top: 5px white dashed;
+    background-color: black;
+    position: absolute;
+    bottom: 10px;
+    /* top: 50%; */
+    left: 50%;
+    translate: -50% 0;
+}
