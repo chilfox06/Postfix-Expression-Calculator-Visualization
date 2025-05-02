@@ -1,11 +1,11 @@
-// === 假設的 UI 更新函數 ===
-function UpdateView(stack: (number | string)[]): void {
-    console.log("View updated:", stack);
-}
+// // === 假設的 UI 更新函數 ===
+// function UpdateView(stack: (number | string)[]): void {
+//     console.log("View updated:", stack);
+// }
 
-function UpdateAnswer(answer: number | (number | string | null)[]): void {
-    console.log("Answer updated:", answer);
-}
+// function UpdateAnswer(answer: number | (number | string | null)[]): void {
+//     console.log("Answer updated:", answer);
+// }
 
 // === Stack 結構與操作 ===
 const stack: (number | string)[] = [];
