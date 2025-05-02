@@ -80,6 +80,6 @@ function Solve(expression: string): void {
     if (typeof finalResult === "number") {
         UpdateAnswer(finalResult);
     } else {
-        throw new Error("Evaluation did not result in a number");
+        throw new Error("Evaluation did not result in a number!");
     }
 }
