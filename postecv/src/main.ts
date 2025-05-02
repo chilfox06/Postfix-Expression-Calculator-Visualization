@@ -84,21 +84,20 @@ if (app) {
     const tokens = inputBox.value.split(" ");
     const rawText = inputBox.value;
   
-    // Calculate index of the start of the `index`-th token
+    // Calculate index `index`-th token
     let charIndex = 0;
     for (let i = 0; i < index && i < tokens.length; i++) {
-      charIndex += tokens[i].length + 1; // +1 for space
+      charIndex += tokens[i].length + 1;
     }
     charIndex++;
-    // Measure text width up to that point using canvas
+    
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
-    ctx.font = "24px Consolas"; // Match your inputBox font
+    ctx.font = "24px Consolas";
   
     const textBefore = rawText.substring(0, charIndex);
     const textWidth = ctx.measureText(textBefore).width;
   
-    // Adjust for inputBox's padding
     const paddingLeft = parseInt(window.getComputedStyle(inputBox).paddingLeft, 10);
     
     cursor.style.left = (inputBox.offsetLeft + paddingLeft + textWidth) + "px";
