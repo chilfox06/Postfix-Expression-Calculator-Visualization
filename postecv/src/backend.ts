@@ -1,4 +1,7 @@
-// // === 假設的 UI 更新函數 ===
+const manager = new StackAnimationManager();
+await manager.UpdatePush(10)
+
+// === 假設的 UI 更新函數 ===
 // function UpdateView(stack: (number | string)[]): void {
 //     console.log("View updated:", stack);
 // }
@@ -12,21 +15,20 @@ const stack: (number | string)[] = [];
 
 function Push(value: number | string): void {
     stack.push(value);
-    UpdateView(stack);
+    UpdatePush(stack);
 }
 
-function Pop(): number | string{
+function Pop(): number | string {
     const value = stack.pop();
-    UpdateView(stack);
     if (value === undefined) {
         throw new Error("Stack is empty! Cannot Pop.");
     }
     return value;
 }
 
-function Top(): number | string | undefined {
-    return stack[stack.length - 1];
-}
+// function Top(): number | string | undefined {
+//     return stack[stack.length - 1];
+// }
 
 // === 主函數：求值 postfix 表達式 ===
 function Solve(expression: string): void {
@@ -35,17 +37,18 @@ function Solve(expression: string): void {
 
     const tokens = expression.split(" ");
 
-    for (const token of tokens) {
+    for (let i = 0; i < tokens.length; i++) {
+        const token = tokens[i];
         if (!isNaN(Number(token))) {
             // 是數字
             Push(Number(token));
         } else {
             // 是運算符號
-            UpdateAnswer([null, token, null]);
+            UpdateToken(token);
             const b = Pop();
-            UpdateAnswer([null, token, b]);
+            UpdatePopToRight();
             const a = Pop();
-            UpdateAnswer([a, token, b]);
+            UpdatePopToLeft();
 
             if (typeof a !== "number" || typeof b !== "number") {
                 throw new Error("Invalid expression!");
@@ -70,9 +73,9 @@ function Solve(expression: string): void {
                     throw new Error(`Unsupported operator: ${token}`);
             }
 
-            UpdateAnswer(result);
-            Push(result); // 可以改成最後一個不要 push
-            UpdateAnswer([null, null, null]);
+            if (i !== tokens.length - 1) {
+                Push(result); // 如果不是最後一個 result，才 push 回去
+            }
         }
     }
 
@@ -83,3 +86,16 @@ function Solve(expression: string): void {
         throw new Error("Evaluation did not result in a number!");
     }
 }
+
+// // To-do:
+// ```typescript
+// UpdatePush(n: number) // the number being pushed into stack
+
+// UpdatePopToLeft() // Pop the top of stack and move to left
+
+// UpdatePopToRight() // Pop the top of stack and move to right
+
+// UpdateToken(op: string) // show the operator
+
+// UpdateResult(n: number|null) // show/hide the calculated result
+// ``` - 實作一個向右移動箭頭函式;
