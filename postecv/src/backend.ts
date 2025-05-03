@@ -26,6 +26,11 @@ function Pop(): number | string {
     return value;
 }
 
+function DigitCount(n: number): number {
+    if (n === 0) return 1;
+    return Math.floor(Math.log10(Math.abs(n))) + 1;
+}
+
 // function Top(): number | string | undefined {
 //     return stack[stack.length - 1];
 // }
@@ -42,8 +47,10 @@ function Solve(expression: string): void {
         if (!isNaN(Number(token))) {
             // 是數字
             Push(Number(token));
+            ArrowMoveRight(DigitCount(Number(token)) + 1); // +1 是為了空格
         } else {
             // 是運算符號
+            ArrowMoveRight(2);
             UpdateToken(token);
             const b = Pop();
             UpdatePopToRight();
