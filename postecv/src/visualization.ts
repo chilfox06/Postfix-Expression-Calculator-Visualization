@@ -1,3 +1,6 @@
+import './stackAnimation.css'
+import './easteregg.ts'
+
 function delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
 }
@@ -128,12 +131,20 @@ export class StackAnimationManager
         this.numberNode.left!.del();
         this.numberNode.right!.del();
     }
+
+    async UpdateAnswer(n: number)
+    {
+        await this.UpdateResult(n);
+
+        this.stack.style.opacity = "0";
+
+        this.numberNode.ans!.setPositon(50, 50);
+    }
 }
 
 /* below is the test code.
 paste it into main.ts to see the result
 
-import './stackAnimation.css'
 import { StackAnimationManager } from './visualization'
 
 const sam = new StackAnimationManager();
