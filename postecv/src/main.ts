@@ -1,3 +1,4 @@
+import { Solve, manager } from "./backend";
 const app = document.getElementById("app");
 
 if (app) {
@@ -8,7 +9,7 @@ if (app) {
     display: "flex",
     alignItems: "center",         // center vertically
     justifyContent: "flex-start", // align left
-    paddingLeft: "15vw",          // move from the left
+    // paddingLeft: "15vw",          // move from the left
     backgroundColor: "#f0f0f0",
     fontFamily: "Consolas, monospace", // Changed font
     fontSize: "18px",   
@@ -135,9 +136,11 @@ if (app) {
         }
       } else if (key === "ENT") {
         inputFinalized = true;
+        Solve(inputBox.value);
         // resultDisplay.textContent = `${inputBox.value}`;
       } else if (key === "AC") {
         moveCursorToToken(0);
+        manager.reset();
         inputFinalized = false;
         inputBox.value = "";
         resultDisplay.textContent = null;
@@ -167,3 +170,4 @@ if (app) {
   console.error("App container not found.");
 }
 // inputBox.value
+

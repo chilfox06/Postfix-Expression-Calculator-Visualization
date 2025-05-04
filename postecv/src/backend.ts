@@ -1,5 +1,6 @@
-const manager = new StackAnimationManager();
-await manager.UpdatePush(10)
+import { StackAnimationManager } from "./visualization";
+
+export const manager = new StackAnimationManager();
 
 // === 假設的 UI 更新函數 ===
 // function UpdateView(stack: (number | string)[]): void {
@@ -13,9 +14,9 @@ await manager.UpdatePush(10)
 // === Stack 結構與操作 ===
 const stack: (number | string)[] = [];
 
-function Push(value: number | string): void {
+async function Push(value: number) {
     stack.push(value);
-    UpdatePush(stack);
+    await manager.UpdatePush(value);
 }
 
 function Pop(): number | string {
@@ -36,7 +37,7 @@ function DigitCount(n: number): number {
 // }
 
 // === 主函數：求值 postfix 表達式 ===
-function Solve(expression: string): void {
+export async function Solve(expression: string){
     // 清空 stack
     stack.length = 0;
 
@@ -46,16 +47,16 @@ function Solve(expression: string): void {
         const token = tokens[i];
         if (!isNaN(Number(token))) {
             // 是數字
-            Push(Number(token));
-            ArrowMoveRight(DigitCount(Number(token)) + 1); // +1 是為了空格
+            await Push(Number(token));
+            // ArrowMoveRight(DigitCount(Number(token)) + 1); // +1 是為了空格
         } else {
             // 是運算符號
-            ArrowMoveRight(2);
-            UpdateToken(token);
+            // ArrowMoveRight(2);
+            await manager.UpdateToken(token);
             const b = Pop();
-            UpdatePopToRight();
+            await manager.UpdatePopToRight();
             const a = Pop();
-            UpdatePopToLeft();
+            await manager.UpdatePopToLeft();
 
             if (typeof a !== "number" || typeof b !== "number") {
                 throw new Error("Invalid expression!");
@@ -81,17 +82,22 @@ function Solve(expression: string): void {
             }
 
             if (i !== tokens.length - 1) {
-                Push(result); // 如果不是最後一個 result，才 push 回去
+                await manager.UpdateResult(result);
+                await Push(result); // 如果不是最後一個 result，才 push 回去
+            }
+            else
+            {
+                await manager.UpdateAnswer(result);
             }
         }
     }
 
-    const finalResult = Pop();
-    if (typeof finalResult === "number") {
-        UpdateAnswer(finalResult);
-    } else {
-        throw new Error("Evaluation did not result in a number!");
-    }
+    // const finalResult = Pop();
+    // if (typeof finalResult === "number") {
+    //     await manager.UpdateAnswer(finalResult);
+    // } else {
+    //     throw new Error("Evaluation did not result in a number!");
+    // }
 }
 
 // // To-do:
