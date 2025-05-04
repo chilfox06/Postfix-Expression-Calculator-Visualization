@@ -1,7 +1,11 @@
 (() => {
     let n = 0;
-    document.querySelector<HTMLDivElement>('.titleBar')!.onclick = e => {
+    document.querySelector<HTMLDivElement>('.titleBar')!.onclick = () => {
          n++;
-         if (n == 10) document.getElementById("app")!.style = `background-image: url(../easteregg.png);background-size: contain;`
+         if (n == 10) 
+        {
+            document.getElementById("app")!.style.backgroundImage = 'url(../easteregg.png)';
+            document.getElementById("app")!.style.backgroundSize = 'contain';
+        }
         }
     })();

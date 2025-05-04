@@ -81,7 +81,7 @@ if (app) {
   
   let inputFinalized = false;
 
-  function moveCursorToToken(index) {
+  function moveCursorToToken(index: number) {
     const tokens = inputBox.value.split(" ");
     const rawText = inputBox.value;
   
@@ -93,7 +93,7 @@ if (app) {
     charIndex++;
     
     const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d")!;
     ctx.font = "24px Consolas";
   
     const textBefore = rawText.substring(0, charIndex);
