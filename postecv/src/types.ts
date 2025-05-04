@@ -19,11 +19,11 @@ export type Op = '+' | '-' | '*' | '/';
 
 export interface ViewData
 {
-    stack:    StackArray;
-    left:     number;
-    right:    number;
-    operator: Op;
-    ans:      number;
+    stack:    StackArray; // can be empty array
+    left:     number | null;
+    right:    number | null;
+    operator: Op | null;
+    ans:      number | null;
 }
 /*
   like C struct, but the syntax is

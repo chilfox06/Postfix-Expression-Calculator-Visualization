@@ -1,3 +1,4 @@
+import { Solve } from "./backend";
 const app = document.getElementById("app");
 
 if (app) {
@@ -135,6 +136,7 @@ if (app) {
         }
       } else if (key === "ENT") {
         inputFinalized = true;
+        Solve(inputBox.value);
         // resultDisplay.textContent = `${inputBox.value}`;
       } else if (key === "AC") {
         moveCursorToToken(0);
@@ -167,3 +169,4 @@ if (app) {
   console.error("App container not found.");
 }
 // inputBox.value
+
