@@ -27,10 +27,10 @@ function Pop(): number | string {
     return value;
 }
 
-function DigitCount(n: number): number {
-    if (n === 0) return 1;
-    return Math.floor(Math.log10(Math.abs(n))) + 1;
-}
+// function DigitCount(n: number): number {
+//     if (n === 0) return 1;
+//     return Math.floor(Math.log10(Math.abs(n))) + 1;
+// }
 
 // function Top(): number | string | undefined {
 //     return stack[stack.length - 1];
