@@ -1,6 +1,6 @@
 import { StackAnimationManager } from "./visualization";
 
-const manager = new StackAnimationManager();
+export const manager = new StackAnimationManager();
 
 // === 假設的 UI 更新函數 ===
 // function UpdateView(stack: (number | string)[]): void {

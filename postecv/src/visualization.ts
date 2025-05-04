@@ -161,6 +161,23 @@ export class StackAnimationManager
         this.numberNode.ans!.setPositon(50, 50);
         this.numberNode.ans!.setFontSize(3);
     }
+
+    reset(): void
+    {
+        this.stack.style.opacity = "";
+
+        for (const n of this.numberNode.stack) n.del();
+        this.numberNode.stack = [];
+
+        if (this.numberNode.left) this.numberNode.left.del();
+        this.numberNode.left = null;
+
+        if (this.numberNode.right) this.numberNode.right.del();
+        this.numberNode.right = null;
+
+        if (this.numberNode.ans) this.numberNode.ans.del();
+        this.numberNode.ans = null;
+    }
 }
 
 /* below is the test code.
