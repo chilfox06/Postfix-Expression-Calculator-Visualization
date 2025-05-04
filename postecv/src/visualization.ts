@@ -16,12 +16,14 @@ class NumberNode
         this.element.classList.add('numberNode');
         this.number = n;
         this.element.innerText = n.toString();
+        this.setFontSize();
     }
 
     setNumber(n: number)
     {
         this.number = n;
         this.element.innerText = n.toString();
+        this.setFontSize();
     }
 
     setPositon(top: number, left: number)
@@ -29,6 +31,17 @@ class NumberNode
         this.element.style.top = `${top}%`;
         this.element.style.left = `${left}%`;
         this.element.style.opacity = "100%";
+    }
+
+    setFontSize(mul: number = 1)
+    {
+        const charCount = this.number.toString().length;
+        const baseSize = 30;
+
+        if (charCount > 4)
+        {
+            this.element.style.fontSize = `${mul * baseSize * 4 / charCount}px`;
+        }
     }
 
     del()
@@ -43,12 +56,14 @@ export class StackAnimationManager
     container: HTMLDivElement;
     stack: HTMLDivElement;
     operatorBubble: HTMLDivElement;
+    
     static positions: {[p: string]: [number, number]} = {
         "ans": [15, 50],
         "left": [15, 25],
         "right": [15, 75],
-        "stackBottom": [85, 50]
+        "stackBottom": [83, 50]
     };
+    static delayTime: number = 750;
 
     constructor()
     {
@@ -84,7 +99,7 @@ export class StackAnimationManager
         const pos = StackAnimationManager.positions['stackBottom'];
         node.setPositon(pos[0] - 10 * (this.numberNode.stack.length - 1), pos[1]);
 
-        await delay(1000);
+        await delay(StackAnimationManager.delayTime);
     }
 
     async UpdatePopToLeft()
@@ -92,7 +107,7 @@ export class StackAnimationManager
         this.numberNode.left = this.numberNode.stack.pop()!;
         this.numberNode.left.setPositon(...StackAnimationManager.positions['left']);
 
-        await delay(1000);
+        await delay(StackAnimationManager.delayTime);
     }
 
     async UpdatePopToRight()
@@ -100,25 +115,30 @@ export class StackAnimationManager
         this.numberNode.right = this.numberNode.stack.pop()!;
         this.numberNode.right.setPositon(...StackAnimationManager.positions['right']);
 
-        await delay(1000);
+        await delay(StackAnimationManager.delayTime);
     }
 
     async UpdateToken(op: string)
     {
+        if (op == '*') op = '×';
+        if (op == '/') op = '÷';
         this.operatorBubble.innerText = op;
         this.operatorBubble.style.opacity = "100%";
         
-        await delay(1000);
+        await delay(StackAnimationManager.delayTime);
     }
 
     async UpdateResult(n: number)
     {
+        this.numberNode.left!.setPositon(...StackAnimationManager.positions['ans']);
         this.numberNode.left!.element.style.opacity = "0%";
+        this.numberNode.right!.setPositon(...StackAnimationManager.positions['ans']);
         this.numberNode.right!.element.style.opacity = "0%";
         this.operatorBubble.style.opacity = "";
 
         const node = new NumberNode(n);
         this.numberNode.ans = node;
+        node.element.classList.add('numberNodeResult');
         this.container.appendChild(node.element);
 
         await new Promise(requestAnimationFrame);
@@ -126,7 +146,7 @@ export class StackAnimationManager
             
         this.numberNode.ans.setPositon(...StackAnimationManager.positions['ans']);
 
-        await delay(1000);
+        await delay(StackAnimationManager.delayTime);
 
         this.numberNode.left!.del();
         this.numberNode.right!.del();
@@ -139,6 +159,7 @@ export class StackAnimationManager
         this.stack.style.opacity = "0";
 
         this.numberNode.ans!.setPositon(50, 50);
+        this.numberNode.ans!.setFontSize(3);
     }
 }
 
